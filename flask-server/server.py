@@ -1,4 +1,5 @@
 from flask import Flask
+from scrape import *
 
 app = Flask(__name__)
 

@@ -25,7 +25,7 @@ function App() {
           alignItems="center"
           direction="column"
           justifyContent="center"
-          style={{ padding: 10 }}
+          style={{ padding: 14 }}
         >
           <Grid
             container

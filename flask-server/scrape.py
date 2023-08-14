@@ -19,8 +19,12 @@ def scrapePlaylist(URL):
     start = script.find("{")
     end = script.find("};") + 1
     playlistJSON = json.loads(script[start:end])
+    playlistTitle = ''
+    try:
+        playlistTitle = playlistJSON['metadata']['playlistMetadataRenderer']['title']
+    except:
+        raise Exception("Error finding playlist. Make sure it is a valid public playlist.")
 
-    playlistTitle = playlistJSON['metadata']['playlistMetadataRenderer']['title']
     contents = playlistJSON['contents']['twoColumnBrowseResultsRenderer']['tabs'][0]['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer']['contents'][0]['playlistVideoListRenderer']['contents']
     playlist = {'title': playlistTitle, 'songs': []}
     for video in contents:
@@ -47,9 +51,3 @@ def compare(path, URL):
     recentlyAdded = newPlaylistSet - existingPlaylistSet
     print(deleted)
     print(recentlyAdded)
-
-
-URL = 'https://youtube.com/playlist?list=PLNCbFulFAG7yhMMbmzikox4DF34lXFM_X'
-# playList = scrapePlaylist(URL)
-# printSongs(playList)
-compare("JPOP.txt", URL)

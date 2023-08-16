@@ -8,14 +8,16 @@ CORS(app)
 @app.route("/getSongs", methods=["POST"])
 def getSongs():
     try:
-        playlist = scrapePlaylist(request.json["URL"])
-        return playlist
+        return scrapePlaylist(request.json["URL"])
     except Exception as e:
         return str(e)
 
 @app.route("/compare", methods=["POST"])
 def comparePlaylists():
-    return {"deleted": ["Airport Lady"], "added": []}
+    try:
+        return compare(request.json["existingPlaylist"], request.json["URL"])
+    except Exception as e:
+        return str(e)
 
 if __name__ == "__main__":
     app.run(debug=True)

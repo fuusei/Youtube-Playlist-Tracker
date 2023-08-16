@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Compare from "./Compare";
 import Playlist from "./Playlist";
-import { Tabs, Tab, Grid } from "@mui/material";
+import { Tabs, Tab, Grid, Typography } from "@mui/material";
 
 function App() {
-  const [songs, setSongs] = useState([{}]);
   const [tab, setTab] = useState("one");
   const handleTabChange = (event, value) => setTab(value);
 
@@ -31,8 +30,11 @@ function App() {
             container
             alignItems="center"
             direction="column"
-            sx={{ height: 300 }}
+            sx={{ height: 500 }}
           >
+            <Typography variant="h4" gutterBottom>
+              YouTube Playlist Tracker
+            </Typography>
             <Tabs
               value={tab}
               onChange={handleTabChange}

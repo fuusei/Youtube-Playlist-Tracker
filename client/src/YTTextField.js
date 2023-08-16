@@ -10,7 +10,9 @@ function YTTextField(props) {
         fullWidth
         required
         error={props.error}
+        placeholder="https://youtube.com/playlist?list=ExAmP13"
         helperText={props.errorText}
+        FormHelperTextProps={{ sx: { color: "red" } }}
         onChange={props.handleValidation}
         margin="normal"
         label="YouTube Playlist Link"

@@ -3,13 +3,6 @@ import requests
 import re
 import json
 
-def printSongs(playlist):
-    note = ''
-    for song in playlist['songs']:
-        note += song['name'] + " by [/ " + song['author'] + " /]\n"
-    f = open(playlist['title'] + ".txt", "w", encoding='utf8')
-    f.write(note)
-
 def scrapePlaylist(URL):
 
     data = requests.get(URL).text
@@ -34,20 +27,18 @@ def scrapePlaylist(URL):
 
     return playlist
 
-def compare(path, URL):
-    playList = scrapePlaylist(URL)
-    f = open(path, "r", encoding='utf8');
-    filePlaylist = f.read().split('\n')
-    existingPlaylist = []
-    for i in range(len(filePlaylist)-1):
-        s = filePlaylist[i].split(' by [/ ')
-        author = s[1][:-3]
-        existingPlaylist.append({'name': s[0], 'author': author})
-    existingPlaylistTitles = list(map(lambda song: song['name'], existingPlaylist))
-    newPlaylistTitles = list(map(lambda song: song['name'], playList['songs']))
-    existingPlaylistSet = set(existingPlaylistTitles)
-    newPlaylistSet = set(newPlaylistTitles)
-    deleted = existingPlaylistSet - newPlaylistSet
-    recentlyAdded = newPlaylistSet - existingPlaylistSet
-    print(deleted)
-    print(recentlyAdded)
+def compare(existingPlaylist, URL):
+    try:
+        playList = scrapePlaylist(URL)
+
+        existingPlaylistTitles = list(map(lambda song: song['name'], existingPlaylist))
+        newPlaylistTitles = list(map(lambda song: song['name'], playList['songs']))
+
+        existingPlaylistSet = set(existingPlaylistTitles)
+        newPlaylistSet = set(newPlaylistTitles)
+
+        deleted = existingPlaylistSet - newPlaylistSet
+        recentlyAdded = newPlaylistSet - existingPlaylistSet
+        return {'deleted': list(deleted), 'added': list(recentlyAdded)}
+    except:
+        raise Exception("Error occurred when finding differences.")

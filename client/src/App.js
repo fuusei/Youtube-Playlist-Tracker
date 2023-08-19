@@ -6,6 +6,11 @@ import { Tabs, Tab, Grid, Typography } from "@mui/material";
 function App() {
   const [tab, setTab] = useState("one");
   const handleTabChange = (event, value) => setTab(value);
+  const views = {
+    one: Playlist,
+    two: Compare,
+  };
+  const CurrentView = views[tab];
 
   return (
     <div>
@@ -45,7 +50,7 @@ function App() {
               <Tab value="one" label="Upload" />
               <Tab value="two" label="Compare" />
             </Tabs>
-            {tab === "one" ? <Playlist /> : <Compare />}
+            <CurrentView />
           </Grid>
         </Grid>
       </Grid>
